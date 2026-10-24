@@ -66,7 +66,6 @@ export default function Mosaic() {
             type="button"
             className={f.forma ? `is-${f.forma}` : undefined}
             aria-label={`Ampliar: ${f.alt}`}
-            data-reveal=""
             style={{ ["--i" as string]: i }}
             onClick={(e) => {
               last.current = e.currentTarget;
