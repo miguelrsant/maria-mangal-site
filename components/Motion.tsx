@@ -22,6 +22,21 @@ function contar(el: HTMLElement) {
   requestAnimationFrame(passo);
 }
 
+function entrarQuandoPronto(el: HTMLElement, entrar: () => void) {
+  const pendentes = Array.from(el.querySelectorAll("img")).filter((img) => !img.complete);
+  if (!pendentes.length) return entrar();
+  let feito = false;
+  const vai = () => {
+    if (!feito) {
+      feito = true;
+      entrar();
+    }
+  };
+  let faltam = pendentes.length;
+  pendentes.forEach((img) => img.addEventListener("load", () => --faltam === 0 && vai(), { once: true }));
+  setTimeout(vai, 1500);
+}
+
 export default function Motion() {
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -29,8 +44,12 @@ export default function Motion() {
       (entries) =>
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add("is-in");
-            e.target.querySelectorAll<HTMLElement>("[data-count]").forEach(contar);
+            const el = e.target as HTMLElement;
+            // Foto ainda chegando: espera ela (no máximo 1,5 s) para não entrar uma moldura vazia.
+            entrarQuandoPronto(el, () => {
+              el.classList.add("is-in");
+              el.querySelectorAll<HTMLElement>("[data-count]").forEach(contar);
+            });
             io.unobserve(e.target);
           }
         }),

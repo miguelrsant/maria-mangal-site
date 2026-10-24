@@ -581,3 +581,12 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
 .house-main::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 240, 215, .22) 48%, rgba(255, 240, 215, .05) 56%, transparent 66%); transform: translateX(-120%); animation: reflexo 9s ease-in-out infinite; }
 .house:nth-child(2) .house-main::after { animation-delay: 4.5s; }
 @keyframes reflexo { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* A polaroid entra inteira (moldura, sombra e foto juntas), sem mostrar a caixa vazia antes da foto. */
+.house-inset { background: var(--surface-raised); }
+.js .house-inset[data-reveal] { transform: translateY(28px) rotate(1.5deg); transition: opacity 1s var(--ease), transform 1.3s var(--ease); transition-delay: calc(var(--i, 0) * 120ms + 300ms); }
+.js .house-inset[data-reveal].is-in { transform: none; }
+.house:hover .house-inset.is-in { transform: translateY(-8px); }
+.ev-inset { background: var(--surface); }
+.js .ev-inset[data-reveal] { transform: translateY(28px) rotate(-1.5deg); transition: opacity 1s var(--ease), transform 1.3s var(--ease); transition-delay: calc(var(--i, 0) * 120ms + 300ms); }
+.js .ev-inset[data-reveal].is-in { transform: none; }

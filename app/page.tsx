@@ -144,10 +144,10 @@ export default function Home() {
                   </span>
                   <div className="house-media">
                     <div className="photo house-main" data-reveal="curtain" style={{ ["--i" as string]: i }}>
-                      <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} loading="eager" {...blur(c.foto.src)} style={{ objectPosition: c.foto.posicao }} />
+                      <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} loading="eager" fetchPriority="high" style={{ objectPosition: c.foto.posicao }} />
                     </div>
-                    <div className="photo house-inset" data-reveal="curtain" style={{ ["--i" as string]: i + 3 }}>
-                      <Image src={c.detalhe.src} alt={c.detalhe.alt} fill sizes="(max-width: 760px) 40vw, 20vw" quality={78} loading="eager" {...blur(c.detalhe.src)} style={{ objectPosition: c.detalhe.posicao }} />
+                    <div className="photo house-inset" data-reveal="" style={{ ["--i" as string]: i + 4 }}>
+                      <Image src={c.detalhe.src} alt={c.detalhe.alt} fill sizes="(max-width: 760px) 40vw, 20vw" quality={78} loading="eager" fetchPriority="high" style={{ objectPosition: c.detalhe.posicao }} />
                     </div>
                   </div>
                   <div className="house-body">
@@ -294,7 +294,7 @@ export default function Home() {
                   <Image src="/fotos/franca-salao-cheio-retrato.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" loading="eager" style={{ objectPosition: "center 40%" }} />
                 </div>
               </div>
-              <div className="photo ev-inset" data-reveal="curtain" style={{ ["--i" as string]: 3 }}>
+              <div className="photo ev-inset" data-reveal="" style={{ ["--i" as string]: 4 }}>
                 <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" loading="eager" style={{ objectPosition: "center 30%" }} />
               </div>
               <p className="ev-cap" data-reveal="" style={{ ["--i" as string]: 4 }}>
