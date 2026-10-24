@@ -55,12 +55,12 @@ function proximosDias(): { dias: Dia[]; agoraMin: number } {
 }
 
 export default function ReservationForm() {
-  const [casa, setCasa] = useState<string>(CASAS[0].id);
+  const [casa, setCasa] = useState("");
   const [dias, setDias] = useState<Dia[]>([]);
   const [agoraMin, setAgoraMin] = useState(0);
   const [data, setData] = useState("");
-  const [hora, setHora] = useState<number>(20 * 60);
-  const [pessoas, setPessoas] = useState("2");
+  const [hora, setHora] = useState("");
+  const [pessoas, setPessoas] = useState("");
   const [nome, setNome] = useState("");
   const [obs, setObs] = useState("");
 
@@ -68,30 +68,35 @@ export default function ReservationForm() {
     const p = proximosDias();
     setDias(p.dias);
     setAgoraMin(p.agoraMin);
-    setData(p.dias[0]?.iso ?? "");
     const onCasa = (e: Event) => setCasa((e as CustomEvent<string>).detail);
     window.addEventListener("mj:casa", onCasa);
     return () => window.removeEventListener("mj:casa", onCasa);
   }, []);
 
   const dia = dias.find((d) => d.iso === data);
-  const turnos = horariosDoDia(!!dia?.hoje, agoraMin);
-  const livres = turnos.flatMap((t) => t.horarios);
+  const turnos = dia ? horariosDoDia(dia.hoje, agoraMin) : [];
 
-  // Se o horário escolhido não existe no dia (ex.: hoje já passou), cai no mais próximo disponível.
+  // Trocou a data e o horário escolhido não existe nela: pede o horário de novo.
   useEffect(() => {
-    if (livres.length && !livres.includes(hora)) setHora(livres.find((m) => m >= hora) ?? livres[livres.length - 1]);
-  }, [data, livres.join(","), hora]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (hora && !turnos.some((t) => t.horarios.includes(Number(hora)))) setHora("");
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Um passo de cada vez: casa → nome → data → horário → pessoas → observações.
+  const feito = [!!casa, nome.trim().length >= 2, !!dia, !!hora, !!pessoas];
+  const liberado = (i: number) => feito.slice(0, i).every(Boolean);
+  const pronto = feito.every(Boolean);
+  const passo = (i: number) => ({ "data-step": String(i + 1).padStart(2, "0"), "data-done": feito[i] ? "" : undefined, "data-locked": liberado(i) ? undefined : "" });
 
   const enviar = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!pronto) return;
     const c = CASAS.find((x) => x.id === casa) ?? CASAS[0];
     const texto = [
       `Olá! Gostaria de reservar uma mesa na Maria & José ${c.nome}.`,
       ``,
       `Reserva em nome de: ${nome.trim()}`,
-      `Data: ${dia ? dia.dataBR : "a combinar"}`,
-      `Horário: ${fmt(hora)}`,
+      `Data: ${dia!.dataBR}`,
+      `Horário: ${fmt(Number(hora))}`,
       `Pessoas: ${pessoas}`,
       obs.trim() ? `Observações: ${obs.trim()}` : null,
     ]
@@ -101,14 +106,13 @@ export default function ReservationForm() {
   };
 
   return (
-    <form className="resbar" onSubmit={enviar} data-reveal="" style={{ ["--i" as string]: 1 }}>
-      <label className="full">
-        Nome da reserva
-        <input className="field" name="nome" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Em nome de quem fica a mesa" autoComplete="name" required />
-      </label>
-      <label className="half">
-        Unidade
-        <select className="field" value={casa} onChange={(e) => setCasa(e.target.value)} name="unidade">
+    <form className="resbar steps" onSubmit={enviar} data-reveal="" style={{ ["--i" as string]: 1 }}>
+      <label className="full" {...passo(0)}>
+        <span>Casa</span>
+        <select className="field" value={casa} onChange={(e) => setCasa(e.target.value)} name="unidade" required>
+          <option value="" disabled>
+            Escolha a casa
+          </option>
           {CASAS.map((c) => (
             <option key={c.id} value={c.id}>
               {c.nome}
@@ -116,10 +120,16 @@ export default function ReservationForm() {
           ))}
         </select>
       </label>
-      <label className="half">
-        Data
-        <select className="field" value={data} onChange={(e) => setData(e.target.value)} name="data" required>
-          {dias.length === 0 && <option value="">Carregando…</option>}
+      <label className="full" {...passo(1)}>
+        <span>Nome da reserva</span>
+        <input className="field" name="nome" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Em nome de quem fica a mesa" autoComplete="name" required disabled={!liberado(1)} />
+      </label>
+      <label className="half" {...passo(2)}>
+        <span>Data</span>
+        <select className="field" value={data} onChange={(e) => setData(e.target.value)} name="data" required disabled={!liberado(2)}>
+          <option value="" disabled>
+            Escolha o dia
+          </option>
           {dias.map((d) => (
             <option key={d.iso} value={d.iso}>
               {d.rotulo}
@@ -127,9 +137,12 @@ export default function ReservationForm() {
           ))}
         </select>
       </label>
-      <label className="half">
-        Horário
-        <select className="field" value={hora} onChange={(e) => setHora(Number(e.target.value))} name="horario">
+      <label className="half" {...passo(3)}>
+        <span>Horário</span>
+        <select className="field" value={hora} onChange={(e) => setHora(e.target.value)} name="horario" required disabled={!liberado(3)}>
+          <option value="" disabled>
+            {liberado(3) ? "Escolha a hora" : "Antes, a data"}
+          </option>
           {turnos.map((t) => (
             <optgroup key={t.nome} label={t.nome}>
               {t.horarios.map((m) => (
@@ -141,9 +154,12 @@ export default function ReservationForm() {
           ))}
         </select>
       </label>
-      <label className="half">
-        Pessoas
-        <select className="field" value={pessoas} onChange={(e) => setPessoas(e.target.value)} name="pessoas">
+      <label className="full" {...passo(4)}>
+        <span>Pessoas</span>
+        <select className="field" value={pessoas} onChange={(e) => setPessoas(e.target.value)} name="pessoas" required disabled={!liberado(4)}>
+          <option value="" disabled>
+            Quantas pessoas
+          </option>
           {PESSOAS.map((p) => (
             <option key={p} value={p}>
               {p} pessoas
@@ -152,12 +168,14 @@ export default function ReservationForm() {
           <option value="mais de 20">Mais de 20</option>
         </select>
       </label>
-      <label className="full">
-        Observações
-        <input className="field" name="obs" value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Aniversário, cadeira de bebê, preferência de mesa" />
+      <label className="full" {...passo(5)} data-done={undefined}>
+        <span>
+          Observações <em>(opcional)</em>
+        </span>
+        <input className="field" name="obs" value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Aniversário, cadeira de bebê, preferência de mesa" disabled={!liberado(5)} />
       </label>
       <p className="res-msg">Terça a domingo. Almoço até 14h30 e jantar até 21h30, para a cozinha receber você com calma.</p>
-      <button className="mj-btn mj-btn-primary" type="submit">
+      <button className="mj-btn mj-btn-primary" type="submit" disabled={!pronto}>
         Reservar pelo WhatsApp
       </button>
     </form>
