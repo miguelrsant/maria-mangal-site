@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { blur } from "@/lib/blur";
+import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MOSAICO } from "@/lib/site";
 
@@ -41,6 +40,21 @@ export default function Mosaic() {
     };
   }, [open, close, show]);
 
+  // Assim que a página termina de carregar, já baixa as versões ampliadas: tocar numa foto abre na hora.
+  useEffect(() => {
+    const precarregar = () =>
+      MOSAICO.forEach((f) => {
+        const { props } = getImageProps({ src: f.ampliada ?? f.src, alt: "", fill: true, sizes: "100vw" });
+        const img = new window.Image();
+        img.sizes = props.sizes ?? "100vw";
+        if (props.srcSet) img.srcset = props.srcSet;
+        img.src = props.src;
+      });
+    if (document.readyState === "complete") precarregar();
+    else window.addEventListener("load", precarregar, { once: true });
+    return () => window.removeEventListener("load", precarregar);
+  }, []);
+
   const foto = open != null ? MOSAICO[open] : null;
 
   return (
@@ -59,7 +73,7 @@ export default function Mosaic() {
               show(i);
             }}
           >
-            <Image src={f.src} alt="" fill sizes={SIZES[f.forma ?? ""]} quality={78} {...blur(f.src)} style={{ objectPosition: f.posicao }} />
+            <Image src={f.src} alt="" fill sizes={SIZES[f.forma ?? ""]} loading="eager" style={{ objectPosition: f.posicao }} />
             <span className="zoom" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
@@ -87,7 +101,7 @@ export default function Mosaic() {
           ×
         </button>
         <div className="lightbox-stage" onClick={close}>
-          {foto && <Image key={foto.src} src={foto.ampliada ?? foto.src} alt={foto.alt} fill sizes="100vw" quality={85} {...blur(foto.ampliada ?? foto.src)} />}
+          {foto && <Image key={foto.src} src={foto.ampliada ?? foto.src} alt={foto.alt} fill sizes="100vw" loading="eager" />}
         </div>
         <div className="lightbox-bar">
           <span className="lightbox-count">

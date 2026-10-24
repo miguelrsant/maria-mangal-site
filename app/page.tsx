@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { blur } from "@/lib/blur";
+import { Brasas, Trace } from "@/components/Ambient";
+import TraceCanto from "@/components/TraceCanto";
 import Header from "@/components/Header";
 import HeroSlider from "@/components/HeroSlider";
 import Mosaic from "@/components/Mosaic";
@@ -44,6 +46,7 @@ export default function Home() {
 
       {/* 1 · Abertura */}
       <section className="hero" data-theme="salao" id="home" aria-label="Abertura">
+        <Brasas n={18} />
         <HeroSlider />
         <div className="hero-copy wrap">
           <div className="inner">
@@ -133,6 +136,9 @@ export default function Home() {
             <div className="grid2">
               {CASAS.map((c, i) => (
                 <article className="house" key={c.id} data-reveal="" style={{ ["--i" as string]: i }}>
+                  <span className="house-trace" aria-hidden="true">
+                    <Trace dur={16} delay={i * -8} />
+                  </span>
                   <div className="house-media">
                     <div className="photo house-main" data-reveal="curtain" style={{ ["--i" as string]: i }}>
                       <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} loading="eager" {...blur(c.foto.src)} style={{ objectPosition: c.foto.posicao }} />
@@ -274,16 +280,19 @@ export default function Home() {
 
         {/* 6 · Eventos */}
         <section data-theme="salao" className="sec wrap" id="eventos" aria-labelledby="eventos-t">
+          <Brasas n={16} />
           <div className="inner ev">
             <div className="ev-media">
-              <span className="ev-frame" aria-hidden="true" data-reveal="" />
+              <span className="ev-frame" aria-hidden="true" data-reveal="">
+                <TraceCanto dur={6} />
+              </span>
               <div className="photo ev-main" data-reveal="curtain">
                 <div data-parallax="" style={{ position: "absolute", inset: "-6% 0" }}>
-                  <Image src="/fotos/franca-salao-cheio-retrato.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" quality={80} {...blur("/fotos/franca-salao-cheio-retrato.jpg")} style={{ objectPosition: "center 40%" }} />
+                  <Image src="/fotos/franca-salao-cheio-retrato.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" loading="eager" style={{ objectPosition: "center 40%" }} />
                 </div>
               </div>
               <div className="photo ev-inset" data-reveal="curtain" style={{ ["--i" as string]: 3 }}>
-                <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" quality={78} {...blur("/fotos/casal-vinho.jpg")} style={{ objectPosition: "center 30%" }} />
+                <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" loading="eager" style={{ objectPosition: "center 30%" }} />
               </div>
               <p className="ev-cap" data-reveal="" style={{ ["--i" as string]: 4 }}>
                 Aniversários, formaturas e
