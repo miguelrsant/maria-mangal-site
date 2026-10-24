@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Luz que corre pela borda de cima e desce pela direita da moldura do elemento pai.
  * O caminho é desenhado no tamanho real (medido), para o traço de luz não se repetir.
+ * Um rastro longo e suave e uma cabeça mais clara andam juntos, em velocidade constante.
  */
 export default function TraceCanto({ dur = 6 }: { dur?: number }) {
   const ref = useRef<SVGSVGElement>(null);
@@ -21,8 +22,9 @@ export default function TraceCanto({ dur = 6 }: { dur?: number }) {
     <svg ref={ref} className="trace is-canto" aria-hidden="true" style={{ ["--dur" as string]: `${dur}s` }} width={box.w} height={box.h}>
       {box.w > 0 && (
         <>
+          <path className="trace-tail" d={d} pathLength={100} />
           <path className="trace-glow" d={d} pathLength={100} />
-          <path className="trace-line" d={d} pathLength={100} />
+          <path className="trace-head" d={d} pathLength={100} />
         </>
       )}
     </svg>

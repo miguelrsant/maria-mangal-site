@@ -514,12 +514,6 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
 .js .ev-frame .trace { opacity: 0; transition: opacity 1s var(--ease) 2s; }
 .js .ev-frame.is-in .trace { opacity: 1; }
 
-.house-trace { position: absolute; inset: 10px; z-index: 3; pointer-events: none; }
-.house-trace .trace-line { stroke-width: 1; stroke-dasharray: 4 96; opacity: .8; }
-.house-trace .trace-glow { stroke-width: 4; stroke-dasharray: 3 97; opacity: .25; }
-.js .house .house-trace { opacity: 0; transition: opacity 1.2s var(--ease) 2.2s; }
-.js .house.is-in .house-trace { opacity: 1; }
-@media (max-width: 760px) { .house-trace { inset: 6px; } }
 
 /* Brasas que sobem devagar nas seções escuras */
 #eventos { position: relative; overflow: hidden; }
@@ -556,10 +550,34 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
 }
 
 .trace path { fill: none; stroke-linecap: round; }
-.trace.is-canto .trace-line { stroke-dasharray: 14 86; animation: canto-run var(--dur, 6s) var(--ease) infinite; }
-.trace.is-canto .trace-glow { stroke-dasharray: 10 90; animation: canto-run var(--dur, 6s) var(--ease) infinite; }
-@keyframes canto-run { 0% { stroke-dashoffset: 14; opacity: 0; } 8% { opacity: 1; } 80% { opacity: 1; } 100% { stroke-dashoffset: -100; opacity: 0; } }
-.ev-frame .trace-line { stroke: #f0cf95; stroke-width: 2; }
-.ev-frame .trace-glow { stroke: #e3b46e; stroke-width: 10; opacity: .55; filter: blur(5px); }
-.house-trace .trace-line { stroke-width: 1.5; opacity: 1; }
-.house-trace .trace-glow { opacity: .4; }
+
+/* Eventos: rastro de luz em velocidade constante. Rastro, brilho e cabeça andam juntos
+   (mesma duração, mesma curva linear); a cabeça fica na ponta da frente do rastro. */
+.trace.is-canto path { fill: none; stroke-linecap: round; animation-duration: var(--dur, 6s); animation-timing-function: linear; animation-iteration-count: infinite; }
+.trace.is-canto .trace-tail { stroke: #c8a36a; stroke-width: 1.5; stroke-dasharray: 22 78; opacity: .55; animation-name: canto-tail; }
+.trace.is-canto .trace-glow { stroke: #e9b974; stroke-width: 9; stroke-dasharray: 4 96; opacity: .5; filter: blur(5px); animation-name: canto-head; }
+.trace.is-canto .trace-head { stroke: #f6dcaa; stroke-width: 2.2; stroke-dasharray: 4 96; animation-name: canto-head; }
+@keyframes canto-tail { 0% { stroke-dashoffset: 22; } 85%, 100% { stroke-dashoffset: -100; } }
+@keyframes canto-head { 0% { stroke-dashoffset: 4; } 85%, 100% { stroke-dashoffset: -118; } }
+
+/* Cards das casas: cantoneiras finas nos quatro cantos da moldura, que respiram devagar,
+   e um reflexo de luz que atravessa a foto de tempos em tempos. */
+.house-corners { position: absolute; inset: 10px; z-index: 3; pointer-events: none; }
+.house-corners i { position: absolute; width: 22px; height: 22px; border: 0 solid var(--accent); animation: canto-respira 5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.house-corners i:nth-child(1) { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+.house-corners i:nth-child(2) { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; animation-delay: calc(var(--d, 0s) - 1.25s); }
+.house-corners i:nth-child(3) { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; animation-delay: calc(var(--d, 0s) - 2.5s); }
+.house-corners i:nth-child(4) { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; animation-delay: calc(var(--d, 0s) - 3.75s); }
+@keyframes canto-respira { 0%, 100% { opacity: .35; transform: scale(1); } 50% { opacity: 1; transform: scale(1.18); } }
+.house-corners i:nth-child(1) { transform-origin: top left; }
+.house-corners i:nth-child(2) { transform-origin: top right; }
+.house-corners i:nth-child(3) { transform-origin: bottom right; }
+.house-corners i:nth-child(4) { transform-origin: bottom left; }
+.js .house .house-corners { opacity: 0; transition: opacity 1.2s var(--ease) 1.8s; }
+.js .house.is-in .house-corners { opacity: 1; }
+@media (max-width: 760px) { .house-corners { inset: 6px; } .house-corners i { width: 16px; height: 16px; } }
+
+.house-main { overflow: hidden; }
+.house-main::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 240, 215, .22) 48%, rgba(255, 240, 215, .05) 56%, transparent 66%); transform: translateX(-120%); animation: reflexo 9s ease-in-out infinite; }
+.house:nth-child(2) .house-main::after { animation-delay: 4.5s; }
+@keyframes reflexo { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }

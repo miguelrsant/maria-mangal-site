@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { blur } from "@/lib/blur";
-import { Brasas, Trace } from "@/components/Ambient";
+import { Brasas } from "@/components/Ambient";
 import TraceCanto from "@/components/TraceCanto";
 import Header from "@/components/Header";
 import HeroSlider from "@/components/HeroSlider";
@@ -136,8 +136,11 @@ export default function Home() {
             <div className="grid2">
               {CASAS.map((c, i) => (
                 <article className="house" key={c.id} data-reveal="" style={{ ["--i" as string]: i }}>
-                  <span className="house-trace" aria-hidden="true">
-                    <Trace dur={16} delay={i * -8} />
+                  <span className="house-corners" aria-hidden="true" style={{ ["--d" as string]: `${i * -3}s` }}>
+                    <i />
+                    <i />
+                    <i />
+                    <i />
                   </span>
                   <div className="house-media">
                     <div className="photo house-main" data-reveal="curtain" style={{ ["--i" as string]: i }}>
