@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { blur } from "@/lib/blur";
 import Header from "@/components/Header";
 import HeroSlider from "@/components/HeroSlider";
 import Mosaic from "@/components/Mosaic";
@@ -121,10 +122,10 @@ export default function Home() {
                 <article className="house" key={c.id} data-reveal="" style={{ ["--i" as string]: i }}>
                   <div className="house-media">
                     <div className="photo house-main" data-reveal="curtain" style={{ ["--i" as string]: i }}>
-                      <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} style={{ objectPosition: c.foto.posicao }} />
+                      <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} loading="eager" {...blur(c.foto.src)} style={{ objectPosition: c.foto.posicao }} />
                     </div>
                     <div className="photo house-inset" data-reveal="curtain" style={{ ["--i" as string]: i + 3 }}>
-                      <Image src={c.detalhe.src} alt={c.detalhe.alt} fill sizes="(max-width: 760px) 40vw, 20vw" quality={78} style={{ objectPosition: c.detalhe.posicao }} />
+                      <Image src={c.detalhe.src} alt={c.detalhe.alt} fill sizes="(max-width: 760px) 40vw, 20vw" quality={78} loading="eager" {...blur(c.detalhe.src)} style={{ objectPosition: c.detalhe.posicao }} />
                     </div>
                   </div>
                   <div className="house-body">
@@ -162,6 +163,15 @@ export default function Home() {
                         Como chegar
                       </a>
                     </div>
+                    <a className="order" href={c.pedido} target="_blank" rel="noopener">
+                      <span className="order-t">Faça seu pedido agora</span>
+                      <span className="order-s">
+                        Delivery · Anota Aí
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+                          <path d="M7 17 17 7M9 7h8v8" />
+                        </svg>
+                      </span>
+                    </a>
                   </div>
                 </article>
               ))}
@@ -256,11 +266,11 @@ export default function Home() {
               <span className="ev-frame" aria-hidden="true" data-reveal="" />
               <div className="photo ev-main" data-reveal="curtain">
                 <div data-parallax="" style={{ position: "absolute", inset: "-6% 0" }}>
-                  <Image src="/fotos/franca-salao-cheio.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" quality={78} style={{ objectPosition: "38% center" }} />
+                  <Image src="/fotos/franca-salao-cheio-retrato.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" quality={80} {...blur("/fotos/franca-salao-cheio-retrato.jpg")} style={{ objectPosition: "center 40%" }} />
                 </div>
               </div>
               <div className="photo ev-inset" data-reveal="curtain" style={{ ["--i" as string]: 3 }}>
-                <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" quality={78} style={{ objectPosition: "center 30%" }} />
+                <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" quality={78} {...blur("/fotos/casal-vinho.jpg")} style={{ objectPosition: "center 30%" }} />
               </div>
               <p className="ev-cap" data-reveal="" style={{ ["--i" as string]: 4 }}>
                 Aniversários, formaturas e
@@ -315,7 +325,7 @@ export default function Home() {
                 </h2>
               </div>
               <a className="score" href={GOOGLE_URL} target="_blank" rel="noopener" data-reveal="" style={{ ["--i" as string]: 2 }}>
-                <b>{GOOGLE.nota}</b>
+                <b data-count={GOOGLE.nota}>{GOOGLE.nota}</b>
                 <span>
                   <span className="mj-stars" aria-label="Nota 4,4 de 5">
                     ★★★★★

@@ -1,6 +1,10 @@
 // Dados fixos do site. Atualize aqui (horários, telefones, nota do Google, depoimentos).
 
-export const SITE_URL = "https://mariaejose.com.br";
+/**
+ * Endereço público do site. Na Vercel vem do domínio de produção do projeto (vira mariaejose.com.br
+ * quando o domínio for apontado para lá); fora dela, usa o domínio da casa.
+ */
+export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://mariaejose.com.br";
 
 export type Casa = {
   id: "franca" | "araraquara";
@@ -12,6 +16,8 @@ export type Casa = {
   whatsapp: string; // como aparece na tela
   whatsappIntl: string; // só dígitos, com 55
   mapa: string;
+  /** Delivery pelo Anota Aí. */
+  pedido: string;
   foto: { src: string; alt: string; posicao?: string };
   detalhe: { src: string; alt: string; posicao?: string };
 };
@@ -28,6 +34,7 @@ export const CASAS: Casa[] = [
     whatsapp: "(16) 99996-5739",
     whatsappIntl: "5516999965739",
     mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Av.+Major+Nic%C3%A1cio+2060+Franca+SP",
+    pedido: "https://pedido.anota.ai/loja/maria-jose-parrilla-1",
     foto: { src: "/fotos/franca-fachada.jpg", alt: "Fachada da casa de Franca, com o letreiro aceso", posicao: "center 30%" },
     detalhe: { src: "/fotos/franca-arvore.jpg", alt: "O pátio com a árvore, em Franca", posicao: "center 40%" },
   },
@@ -42,6 +49,7 @@ export const CASAS: Casa[] = [
     whatsapp: "(16) 99713-0782",
     whatsappIntl: "5516997130782",
     mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Rua+Volunt%C3%A1rios+da+P%C3%A1tria+1505+Araraquara+SP",
+    pedido: "https://pedido.anota.ai/loja/maria-jose-parrilla",
     foto: { src: "/fotos/arara-entrada.jpg", alt: "Entrada da casa de Araraquara, com a marquise de vidro", posicao: "center 30%" },
     detalhe: { src: "/fotos/arara-salao.jpg", alt: "O salão de Araraquara, com as mesas postas", posicao: "center" },
   },
@@ -101,14 +109,15 @@ export const HERO = [
   },
 ];
 
-export type FotoMosaico = { src: string; alt: string; forma?: "big" | "tall" | "wide"; posicao?: string };
+/** ampliada: outra versão da foto para abrir ao tocar (ex.: a brasa vertical abre na horizontal). */
+export type FotoMosaico = { src: string; alt: string; forma?: "big" | "tall" | "wide"; posicao?: string; ampliada?: string };
 
 export const MOSAICO: FotoMosaico[] = [
   { src: "/fotos/franca-mesa.jpg", alt: "Salão de Franca, mesa cheia", forma: "big" },
-  { src: "/fotos/grelha-brasa-caprichada-2.jpg", alt: "A picanha na grelha, sobre a brasa", forma: "tall" },
+  { src: "/fotos/grelha-brasa-caprichada-2.jpg", alt: "A picanha na grelha, sobre a brasa", forma: "tall", ampliada: "/fotos/grelha-horizontal-b.jpg" },
   { src: "/fotos/prato-mesa.jpg", alt: "O corte servido à mesa" },
   { src: "/fotos/prato-picanha.jpg", alt: "Picanha na pedra" },
-  { src: "/fotos/prato-tabua-madeira.jpg", alt: "Corte na mesa de madeira, com os acompanhamentos", forma: "wide" },
+  { src: "/fotos/prato-tabua-madeira.jpg", alt: "Corte na mesa de madeira, com os acompanhamentos", forma: "wide", posicao: "center 42%" },
   { src: "/fotos/franca-patio-cozinha.jpg", alt: "O pátio e a cozinha aberta, em Franca", forma: "wide" },
 ];
 

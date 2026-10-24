@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { getImageProps } from "next/image";
 import { HERO } from "@/lib/site";
+import { blur } from "@/lib/blur";
 
 const MS = 6000;
 
 function Slide({ s, first }: { s: (typeof HERO)[number]; first: boolean }) {
   const common = { alt: s.alt, fill: true, sizes: "100vw", priority: first, quality: 80 } as const;
-  const { props: desk } = getImageProps({ ...common, src: s.desktop });
+  const { props: desk } = getImageProps({ ...common, src: s.desktop, ...blur(s.desktop) });
   const { props: cel } = getImageProps({ ...common, src: s.celular });
   return (
     <picture>

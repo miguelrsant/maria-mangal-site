@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { blur } from "@/lib/blur";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MOSAICO } from "@/lib/site";
 
@@ -58,7 +59,12 @@ export default function Mosaic() {
               show(i);
             }}
           >
-            <Image src={f.src} alt="" fill sizes={SIZES[f.forma ?? ""]} quality={78} style={{ objectPosition: f.posicao }} />
+            <Image src={f.src} alt="" fill sizes={SIZES[f.forma ?? ""]} quality={78} {...blur(f.src)} style={{ objectPosition: f.posicao }} />
+            <span className="zoom" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.2">
+                <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
+              </svg>
+            </span>
             <em>{f.alt}</em>
           </button>
         ))}
@@ -81,7 +87,7 @@ export default function Mosaic() {
           ×
         </button>
         <div className="lightbox-stage" onClick={close}>
-          {foto && <Image key={foto.src} src={foto.src} alt={foto.alt} fill sizes="100vw" quality={85} />}
+          {foto && <Image key={foto.src} src={foto.ampliada ?? foto.src} alt={foto.alt} fill sizes="100vw" quality={85} {...blur(foto.ampliada ?? foto.src)} />}
         </div>
         <div className="lightbox-bar">
           <span className="lightbox-count">
