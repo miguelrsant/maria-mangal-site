@@ -483,3 +483,14 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
   .lead { margin: 16px 0 22px; }
   .rating { margin-top: 22px; }
 }
+
+/* A história em dois capítulos, um por casa */
+.story-text { gap: 40px; }
+.chapter { display: grid; gap: 14px; padding-left: 24px; border-left: 1px solid var(--line); }
+.chapter .mj-eyebrow { color: var(--accent); }
+@media (max-width: 760px) {
+  .story-text { gap: 32px; }
+  .chapter { padding-left: 18px; }
+}
+.story .pull { align-self: start; position: sticky; top: 140px; }
+@media (max-width: 760px) { .story .pull { position: relative; top: auto; } }

@@ -103,18 +103,31 @@ export default function Home() {
                 “A raça Angus se adaptou muito bem aos pampas argentinos. Por isso oferecemos sempre a melhor carne do mundo.”
               </blockquote>
               <div className="story-text">
-                <p className="mj-body" data-reveal="" style={{ ["--i" as string]: 1 }}>
-                  Apaixonado por pecuária, Leone Luis Junior, filho e neto de pecuarista, agregou ao DNA da empresa o fantástico mundo dos cortes Angus, inspirado em nossos hermanos argentinos. A raça
-                  Angus, de origem britânica, se adaptou muito bem aos pampas argentinos e trouxe ainda mais suculência e maciez aos cortes.
-                </p>
-                <p className="mj-body" data-reveal="" style={{ ["--i" as string]: 2 }}>
-                  Agregamos um toque de brasilidade aos maiores clássicos argentinos e aos conceitos de frescor de Dona Maria José.
-                </p>
-                <p className="mj-body" data-reveal="" style={{ ["--i" as string]: 3 }}>
-                  Em 2023, a Maria &amp; José Parrilla chegou a Araraquara com a sua segunda unidade, num sobrado muito charmoso e cheio de significados e história: uma casa tombada de esquina, em plena
-                  Rua 5, a rua mais arborizada da cidade, com calçadas de paralelepípedos. Lá, oferecemos todas as delícias da gastronomia argentina, num ambiente aconchegante e com atendimento de
-                  excelência.
-                </p>
+                <div className="chapter" data-reveal="" style={{ ["--i" as string]: 1 }}>
+                  <p className="mj-eyebrow">Franca · desde 2017</p>
+                  <p className="mj-body">
+                    Dona Maria José de Freitas, homenageada pelo filho e pelo neto com a fundação do Maria &amp; José Parrilla, foi uma mulher que acreditava nos princípios da alimentação fresca e
+                    saudável. Nunca se rendeu às facilidades da comida industrializada e ultraprocessada, e deixou esse forte legado à família Freitas.
+                  </p>
+                  <p className="mj-body">
+                    Em 2017 nascia o Maria &amp; José Parrilla no coração de Franca, com um menu totalmente inspirado na matriarca da família. Receitas, princípios e até os nomes dos pratos mostram o
+                    quanto essa cultura é significativa: alta preocupação com a procedência e a qualidade dos insumos, e o amor no preparo de cada alimento, que se percebe no paladar do consumidor,
+                    apelidado carinhosamente de “cliente amigo”.
+                  </p>
+                </div>
+                <div className="chapter" data-reveal="" style={{ ["--i" as string]: 2 }}>
+                  <p className="mj-eyebrow">Araraquara · desde 2023</p>
+                  <p className="mj-body">
+                    Apaixonado por pecuária, Leone Luis Junior, filho e neto de pecuarista, agregou ao DNA da empresa o fantástico mundo dos cortes Angus, inspirado em nossos hermanos argentinos. A
+                    raça Angus, de origem britânica, se adaptou muito bem aos pampas argentinos e trouxe ainda mais suculência e maciez aos cortes. Por isso oferecemos sempre a melhor carne do mundo.
+                    Agregamos um toque de brasilidade aos maiores clássicos argentinos e aos conceitos de frescor de Dona Maria José.
+                  </p>
+                  <p className="mj-body">
+                    Em 2023, o Maria &amp; José Parrilla chegou a Araraquara com a sua segunda unidade, num sobrado muito charmoso e cheio de significados e história: uma casa tombada de esquina em
+                    plena Rua 5, a rua mais arborizada da cidade, com calçadas adornadas por paralelepípedos. A casa oferece todas as delícias da gastronomia argentina, num ambiente muito aconchegante e
+                    com atendimento de excelência.
+                  </p>
+                </div>
               </div>
             </div>
             <div className="grid2">
