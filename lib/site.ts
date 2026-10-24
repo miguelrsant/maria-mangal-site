@@ -80,24 +80,25 @@ export const HORARIOS = {
 
 export const HERO = [
   {
+    rotulo: "A brasa",
+    alt: "Picanha na grelha, sobre a brasa",
+    desktop: "/fotos/grelha-horizontal-b.jpg",
+    celular: "/fotos/celular/grelha-brasa-caprichada-1.jpg",
+    posicao: "center",
+  },
+  {
     rotulo: "A noite",
     alt: "Jantar a dois na varanda de Araraquara, à noite",
     desktop: "/fotos/arara-noite.jpg",
     celular: "/fotos/celular/arara-noite.jpg",
-    posicao: "center 40%",
+    // mais para baixo da foto, para o casal aparecer inteiro na tela larga
+    posicao: "center 66%",
   },
   {
     rotulo: "O salão",
     alt: "O salão de Franca cheio, numa comemoração",
     desktop: "/fotos/franca-salao-cheio.jpg",
     celular: "/fotos/celular/franca-salao-cheio.jpg",
-    posicao: "center",
-  },
-  {
-    rotulo: "A brasa",
-    alt: "Picanha na grelha, sobre a brasa",
-    desktop: "/fotos/grelha-horizontal-b.jpg",
-    celular: "/fotos/celular/grelha-brasa-caprichada-1.jpg",
     posicao: "center",
   },
   {
