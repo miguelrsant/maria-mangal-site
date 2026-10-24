@@ -118,32 +118,50 @@ export default function Home() {
             </div>
             <div className="grid2">
               {CASAS.map((c, i) => (
-                <article className="house" key={c.id}>
-                  <div className="photo" data-reveal="curtain" style={{ ["--i" as string]: i }}>
-                    <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} style={{ objectPosition: c.foto.posicao }} />
+                <article className="house" key={c.id} data-reveal="" style={{ ["--i" as string]: i }}>
+                  <div className="house-media">
+                    <div className="photo house-main" data-reveal="curtain" style={{ ["--i" as string]: i }}>
+                      <Image src={c.foto.src} alt={c.foto.alt} fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} style={{ objectPosition: c.foto.posicao }} />
+                    </div>
+                    <div className="photo house-inset" data-reveal="curtain" style={{ ["--i" as string]: i + 3 }}>
+                      <Image src={c.detalhe.src} alt={c.detalhe.alt} fill sizes="(max-width: 760px) 40vw, 20vw" quality={78} style={{ objectPosition: c.detalhe.posicao }} />
+                    </div>
                   </div>
-                  <p className="mj-eyebrow" data-reveal="">
-                    {c.desde}
-                  </p>
-                  <h3 data-reveal="">{c.nome}</h3>
-                  <p className="mj-body" data-reveal="">
-                    {c.texto}
-                  </p>
-                  <dl className="meta" data-reveal="">
-                    <dt>Endereço</dt>
-                    <dd>{c.endereco}</dd>
-                    <dt>WhatsApp</dt>
-                    <dd>
-                      <a href={`https://wa.me/${c.whatsappIntl}`} target="_blank" rel="noopener">
-                        {c.whatsapp}
+                  <div className="house-body">
+                    <div className="house-top">
+                      <span className="house-num" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p className="mj-eyebrow">{c.desde}</p>
+                    </div>
+                    <h3>{c.nome}</h3>
+                    <p className="mj-body">{c.texto}</p>
+                    <dl className="meta">
+                      <div>
+                        <dt>Endereço</dt>
+                        <dd>
+                          {c.endereco} · {c.cidade}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>WhatsApp</dt>
+                        <dd>
+                          <a href={`https://wa.me/${c.whatsappIntl}`} target="_blank" rel="noopener">
+                            {c.whatsapp}
+                          </a>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Horário</dt>
+                        <dd>Ter a dom · 11h–16h e 18h30–23h</dd>
+                      </div>
+                    </dl>
+                    <div className="ctas">
+                      <ReservarNestaCasa casa={c.id} />
+                      <a className="mj-btn mj-btn-link" href={c.mapa} target="_blank" rel="noopener">
+                        Como chegar
                       </a>
-                    </dd>
-                  </dl>
-                  <div className="ctas" data-reveal="">
-                    <ReservarNestaCasa casa={c.id} />
-                    <a className="mj-btn mj-btn-link" href={c.mapa} target="_blank" rel="noopener">
-                      Como chegar
-                    </a>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -234,10 +252,21 @@ export default function Home() {
         {/* 6 · Eventos */}
         <section data-theme="salao" className="sec wrap" id="eventos" aria-labelledby="eventos-t">
           <div className="inner ev">
-            <div className="photo photo-arch" data-reveal="curtain">
-              <div data-parallax="" style={{ position: "absolute", inset: "-6% 0" }}>
-                <Image src="/fotos/franca-salao-cheio.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 100vw, 50vw" quality={78} />
+            <div className="ev-media">
+              <span className="ev-frame" aria-hidden="true" data-reveal="" />
+              <div className="photo ev-main" data-reveal="curtain">
+                <div data-parallax="" style={{ position: "absolute", inset: "-6% 0" }}>
+                  <Image src="/fotos/franca-salao-cheio.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" quality={78} style={{ objectPosition: "38% center" }} />
+                </div>
               </div>
+              <div className="photo ev-inset" data-reveal="curtain" style={{ ["--i" as string]: 3 }}>
+                <Image src="/fotos/casal-vinho.jpg" alt="Casal brindando com vinho à mesa" fill sizes="(max-width: 760px) 45vw, 20vw" quality={78} style={{ objectPosition: "center 30%" }} />
+              </div>
+              <p className="ev-cap" data-reveal="" style={{ ["--i" as string]: 4 }}>
+                Aniversários, formaturas e
+                <br />
+                fechamentos de negócio
+              </p>
             </div>
             <div>
               <p className="mj-eyebrow" data-reveal="">
@@ -353,9 +382,9 @@ export default function Home() {
             <a href={`https://wa.me/${EVENTOS.whatsappIntl}`} target="_blank" rel="noopener">
               Eventos: {EVENTOS.whatsapp}
             </a>
-            <span className="credit">
+            <a className="credit" href="https://miguelrsant.com.br" target="_blank" rel="noopener">
               Design e desenvolvimento: Miguel Angelo <MonogramaM />
-            </span>
+            </a>
           </div>
         </div>
       </footer>

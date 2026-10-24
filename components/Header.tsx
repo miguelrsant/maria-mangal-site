@@ -13,18 +13,10 @@ const LINKS = [
 
 export default function Header() {
   const [solid, setSolid] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      setSolid(y > 80);
-      setHidden(y > window.innerHeight * 0.9 && y > last + 4);
-      if (y < last - 4) setHidden(false);
-      last = y;
-    };
+    const onScroll = () => setSolid(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -41,7 +33,7 @@ export default function Header() {
 
   return (
     <>
-      <header data-theme="salao" className={`top wrap${solid || open ? " is-solid" : ""}${hidden && !open ? " is-hidden" : ""}`}>
+      <header data-theme="salao" className={`top wrap${solid || open ? " is-solid" : ""}`}>
         <div className="top-in inner">
           <a className="logo-link" href="#home" aria-label="Maria & José Parrilla, início" onClick={close}>
             <Logo />

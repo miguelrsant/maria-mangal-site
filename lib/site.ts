@@ -13,6 +13,7 @@ export type Casa = {
   whatsappIntl: string; // só dígitos, com 55
   mapa: string;
   foto: { src: string; alt: string; posicao?: string };
+  detalhe: { src: string; alt: string; posicao?: string };
 };
 
 export const CASAS: Casa[] = [
@@ -28,6 +29,7 @@ export const CASAS: Casa[] = [
     whatsappIntl: "5516999965739",
     mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Av.+Major+Nic%C3%A1cio+2060+Franca+SP",
     foto: { src: "/fotos/franca-fachada.jpg", alt: "Fachada da casa de Franca, com o letreiro aceso", posicao: "center 30%" },
+    detalhe: { src: "/fotos/franca-arvore.jpg", alt: "O pátio com a árvore, em Franca", posicao: "center 40%" },
   },
   {
     id: "araraquara",
@@ -41,6 +43,7 @@ export const CASAS: Casa[] = [
     whatsappIntl: "5516997130782",
     mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Rua+Volunt%C3%A1rios+da+P%C3%A1tria+1505+Araraquara+SP",
     foto: { src: "/fotos/arara-entrada.jpg", alt: "Entrada da casa de Araraquara, com a marquise de vidro", posicao: "center 30%" },
+    detalhe: { src: "/fotos/arara-salao.jpg", alt: "O salão de Araraquara, com as mesas postas", posicao: "center" },
   },
 ];
 
@@ -76,6 +79,13 @@ export const HERO = [
     posicao: "center 40%",
   },
   {
+    rotulo: "O salão",
+    alt: "O salão de Franca cheio, numa comemoração",
+    desktop: "/fotos/franca-salao-cheio.jpg",
+    celular: "/fotos/celular/franca-salao-cheio.jpg",
+    posicao: "center",
+  },
+  {
     rotulo: "A brasa",
     alt: "Picanha na grelha, sobre a brasa",
     desktop: "/fotos/grelha-horizontal-b.jpg",
@@ -89,39 +99,34 @@ export const HERO = [
     celular: "/fotos/celular/franca-patio-cozinha.jpg",
     posicao: "center",
   },
-  {
-    rotulo: "Comemorar",
-    alt: "O salão de Franca cheio, numa comemoração",
-    desktop: "/fotos/franca-salao-cheio.jpg",
-    celular: "/fotos/celular/franca-salao-cheio.jpg",
-    posicao: "center",
-  },
 ];
 
 export type FotoMosaico = { src: string; alt: string; forma?: "big" | "tall" | "wide"; posicao?: string };
 
 export const MOSAICO: FotoMosaico[] = [
   { src: "/fotos/franca-mesa.jpg", alt: "Salão de Franca, mesa cheia", forma: "big" },
-  { src: "/fotos/franca-arvore.jpg", alt: "O pátio com a árvore, em Franca", forma: "tall" },
-  { src: "/fotos/casal-vinho.jpg", alt: "Vinho na taça, a dois", posicao: "center 35%" },
+  { src: "/fotos/grelha-brasa-caprichada-2.jpg", alt: "A picanha na grelha, sobre a brasa", forma: "tall" },
+  { src: "/fotos/prato-mesa.jpg", alt: "O corte servido à mesa" },
   { src: "/fotos/prato-picanha.jpg", alt: "Picanha na pedra" },
   { src: "/fotos/prato-tabua-madeira.jpg", alt: "Corte na mesa de madeira, com os acompanhamentos", forma: "wide" },
-  { src: "/fotos/arara-salao.jpg", alt: "O salão de Araraquara", forma: "wide" },
+  { src: "/fotos/franca-patio-cozinha.jpg", alt: "O pátio e a cozinha aberta, em Franca", forma: "wide" },
 ];
 
-// TODO: trocar pelos textos reais das avaliações do Google (autorizado pela casa).
+// Avaliações reais do Google (copiadas pelo Miguel em 24/10/2026; "[...]" marca trechos omitidos).
 export const DEPOIMENTOS = [
   {
-    texto: "Exemplo: comemoramos o aniversário da minha mãe e fomos tratados como família.",
-    origem: "Depoimento real do Google · Franca",
+    texto:
+      "Fui comemorar meu aniversário no restaurante e não conhecia. [...] O ambiente é lindo, muito bem organizado e atende bem desde casais, famílias grandes, turma de amigos e crianças. [...] Os garçons muito atenciosos e sempre prontos a nos atender.",
+    origem: "Anna Luiza R. · Avaliação no Google",
   },
   {
-    texto: "Exemplo: um dos melhores restaurantes argentinos em que já fui no Brasil.",
-    origem: "Depoimento real do Google · Franca",
+    texto:
+      "Já visitei diversos restaurantes argentinos no Brasil, e o Maria e José entrou para a lista dos melhores. A carne estava no ponto certo, os acompanhamentos bem feitos e o atendimento de qualidade.",
+    origem: "Gustavo · Avaliação no Google · Franca",
   },
   {
-    texto: "Exemplo: ambiente aconchegante, carne no ponto certo e um atendimento atencioso.",
-    origem: "Depoimento real do Google · Araraquara",
+    texto: "Ambiente agradável e único na região! Comidas deliciosas, preço justo pela qualidade e cortes nobres! Ótimo atendimento.",
+    origem: "Aline B. · Avaliação no Google",
   },
 ];
 
