@@ -590,3 +590,6 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
 .ev-inset { background: var(--surface); }
 .js .ev-inset[data-reveal] { transform: translateY(28px) rotate(-1.5deg); transition: opacity 1s var(--ease), transform 1.3s var(--ease); transition-delay: calc(var(--i, 0) * 120ms + 300ms); }
 .js .ev-inset[data-reveal].is-in { transform: none; }
+/* Formulário: telefone + e-mail numa linha, data + horário na outra */
+.resbar label.half { flex: 1 1 calc(50% - var(--space-3)); }
+@media (max-width: 760px) { .resbar label.half { flex: 1 1 calc(50% - 8px); } .resbar label.half:has(input[type="email"]), .resbar label.half:has(input[type="tel"]) { flex-basis: 100%; } }

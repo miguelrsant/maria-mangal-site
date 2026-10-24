@@ -23,6 +23,17 @@ const DIAS_CURTOS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 
 type Dia = { iso: string; rotulo: string; dataBR: string; semana: number; hoje: boolean };
 
+/** (16) 99999-9999 enquanto a pessoa digita. */
+const mascaraTel = (v: string) => {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.length ? `(${d}` : "";
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+};
+const telOk = (v: string) => /^\d{10,11}$/.test(v.replace(/\D/g, ""));
+const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 /** Horários ainda possíveis num dia (hoje: só com 1h de antecedência). */
@@ -62,6 +73,8 @@ export default function ReservationForm() {
   const [hora, setHora] = useState("");
   const [pessoas, setPessoas] = useState("");
   const [nome, setNome] = useState("");
+  const [tel, setTel] = useState("");
+  const [email, setEmail] = useState("");
   const [obs, setObs] = useState("");
 
   useEffect(() => {
@@ -81,8 +94,8 @@ export default function ReservationForm() {
     if (hora && !turnos.some((t) => t.horarios.includes(Number(hora)))) setHora("");
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Um passo de cada vez: casa → nome → data → horário → pessoas → observações.
-  const feito = [!!casa, nome.trim().length >= 2, !!dia, !!hora, !!pessoas];
+  // Um passo de cada vez: casa → nome → telefone → e-mail → data → horário → pessoas → observações.
+  const feito = [!!casa, nome.trim().length >= 2, telOk(tel), emailOk(email), !!dia, !!hora, !!pessoas];
   const liberado = (i: number) => feito.slice(0, i).every(Boolean);
   const pronto = feito.every(Boolean);
   const passo = (i: number) => ({ "data-step": String(i + 1).padStart(2, "0"), "data-done": feito[i] ? "" : undefined, "data-locked": liberado(i) ? undefined : "" });
@@ -95,6 +108,8 @@ export default function ReservationForm() {
       `Olá! Gostaria de reservar uma mesa na Maria & José ${c.nome}.`,
       ``,
       `Reserva em nome de: ${nome.trim()}`,
+      `Telefone: ${tel}`,
+      `E-mail: ${email.trim()}`,
       `Data: ${dia!.dataBR}`,
       `Horário: ${fmt(Number(hora))}`,
       `Pessoas: ${pessoas}`,
@@ -125,8 +140,16 @@ export default function ReservationForm() {
         <input className="field" name="nome" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Em nome de quem fica a mesa" autoComplete="name" required disabled={!liberado(1)} />
       </label>
       <label className="half" {...passo(2)}>
+        <span>Telefone</span>
+        <input className="field" name="telefone" type="tel" inputMode="tel" value={tel} onChange={(e) => setTel(mascaraTel(e.target.value))} placeholder="(16) 99999-9999" autoComplete="tel-national" required disabled={!liberado(2)} />
+      </label>
+      <label className="half" {...passo(3)}>
+        <span>E-mail</span>
+        <input className="field" name="email" type="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="voce@email.com" autoComplete="email" required disabled={!liberado(3)} />
+      </label>
+      <label className="half" {...passo(4)}>
         <span>Data</span>
-        <select className="field" value={data} onChange={(e) => setData(e.target.value)} name="data" required disabled={!liberado(2)}>
+        <select className="field" value={data} onChange={(e) => setData(e.target.value)} name="data" required disabled={!liberado(4)}>
           <option value="" disabled>
             Escolha o dia
           </option>
@@ -137,11 +160,11 @@ export default function ReservationForm() {
           ))}
         </select>
       </label>
-      <label className="half" {...passo(3)}>
+      <label className="half" {...passo(5)}>
         <span>Horário</span>
-        <select className="field" value={hora} onChange={(e) => setHora(e.target.value)} name="horario" required disabled={!liberado(3)}>
+        <select className="field" value={hora} onChange={(e) => setHora(e.target.value)} name="horario" required disabled={!liberado(5)}>
           <option value="" disabled>
-            {liberado(3) ? "Escolha a hora" : "Antes, a data"}
+            {liberado(5) ? "Escolha a hora" : "Antes, a data"}
           </option>
           {turnos.map((t) => (
             <optgroup key={t.nome} label={t.nome}>
@@ -154,9 +177,9 @@ export default function ReservationForm() {
           ))}
         </select>
       </label>
-      <label className="full" {...passo(4)}>
+      <label className="full" {...passo(6)}>
         <span>Pessoas</span>
-        <select className="field" value={pessoas} onChange={(e) => setPessoas(e.target.value)} name="pessoas" required disabled={!liberado(4)}>
+        <select className="field" value={pessoas} onChange={(e) => setPessoas(e.target.value)} name="pessoas" required disabled={!liberado(6)}>
           <option value="" disabled>
             Quantas pessoas
           </option>
@@ -168,11 +191,11 @@ export default function ReservationForm() {
           <option value="mais de 20">Mais de 20</option>
         </select>
       </label>
-      <label className="full" {...passo(5)} data-done={undefined}>
+      <label className="full" {...passo(7)} data-done={undefined}>
         <span>
           Observações <em>(opcional)</em>
         </span>
-        <input className="field" name="obs" value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Aniversário, cadeira de bebê, preferência de mesa" disabled={!liberado(5)} />
+        <input className="field" name="obs" value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Aniversário, cadeira de bebê, preferência de mesa" disabled={!liberado(7)} />
       </label>
       <p className="res-msg">Terça a domingo. Almoço até 14h30 e jantar até 21h30, para a cozinha receber você com calma.</p>
       <button className="mj-btn mj-btn-primary" type="submit" disabled={!pronto}>
