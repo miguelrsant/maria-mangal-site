@@ -9,10 +9,9 @@ import Motion from "@/components/Motion";
 import ReservationForm, { ReservarNestaCasa } from "@/components/ReservationForm";
 import { HoursStatus, Week } from "@/components/Hours";
 import { InstagramIcon, Lines, Logo, MonogramaM } from "@/components/Brand";
-import { CASAS, DEPOIMENTOS, EVENTOS, GOOGLE, HORARIOS, INSTAGRAM, waLink } from "@/lib/site";
+import { CASAS, DEPOIMENTOS, EVENTOS, GOOGLE, HORARIOS, INSTAGRAM, MARCA, waLink } from "@/lib/site";
 
-const GOOGLE_URL = "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Franca";
-const ORCAMENTO = waLink(EVENTOS.whatsappIntl, "Olá! Gostaria de um orçamento para um evento com a Maria & José Parrilla.");
+const ORCAMENTO = waLink(EVENTOS.whatsappIntl, `Olá! Gostaria de um orçamento para um evento com a ${MARCA.nome}.`);
 
 function SectionHead({ eyebrow, title, children, id }: { eyebrow: string; title: React.ReactNode[]; children?: React.ReactNode; id?: string }) {
   return (
@@ -52,7 +51,7 @@ export default function Home() {
           <div className="inner">
             <div>
               <p className="mj-eyebrow hero-in" style={{ ["--d" as string]: 0 }}>
-                Parrilla argentina · Franca e Araraquara
+                Parrilla argentina · {CASAS.map((c) => c.nome).join(" e ")}
               </p>
               <span className="mj-rule hero-in" style={{ ["--d" as string]: 100 }} />
               <h1>
@@ -66,7 +65,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="lead hero-in" style={{ ["--d" as string]: 500 }}>
-                Cortes Angus na parrilla de carvão, vinho na taça e uma casa feita para comemorar: a dois, em família ou com os amigos.
+                Cortes nobres na parrilla de carvão, vinho na taça e uma casa feita para comemorar: a dois, em família ou com os amigos.
               </p>
               <div className="ctas hero-in" style={{ ["--d" as string]: 650 }}>
                 <a className="mj-btn mj-btn-primary" href="#reservas">
@@ -76,7 +75,7 @@ export default function Home() {
                   Conhecer a casa
                 </a>
               </div>
-              <a className="rating hero-in" style={{ ["--d" as string]: 800 }} href={GOOGLE_URL} target="_blank" rel="noopener">
+              <a className="rating hero-in" style={{ ["--d" as string]: 800 }} href={GOOGLE.url}>
                 <b>{GOOGLE.nota}</b>
                 <span>
                   <span className="mj-stars" aria-hidden="true">
@@ -99,36 +98,33 @@ export default function Home() {
         <section data-theme="marmore" className="sec wrap" id="casa" aria-labelledby="casa-t">
           <div className="inner">
             <SectionHead eyebrow="A casa" title={["Duas casas, a mesma brasa"]} id="casa-t">
-              A primeira abriu em Franca em 2017. A segunda chegou a Araraquara em 2023, numa casa de esquina da Rua 5.
+              A primeira abriu em Santa Aurora em 2016. A segunda chegou a Porto Jatobá em 2022, num antigo armazém à beira do rio.
             </SectionHead>
             <div className="story">
               <blockquote className="pull" data-reveal="">
-                “A raça Angus se adaptou muito bem aos pampas argentinos. Por isso oferecemos sempre a melhor carne do mundo.”
+                “Carne boa não tem pressa. Quem cuida da brasa cuida de quem está à mesa.”
               </blockquote>
               <div className="story-text">
                 <div className="chapter" data-reveal="" style={{ ["--i" as string]: 1 }}>
-                  <p className="mj-eyebrow">Franca · desde 2017</p>
+                  <p className="mj-eyebrow">Santa Aurora · desde 2016</p>
                   <p className="mj-body">
-                    Dona Maria José de Freitas, homenageada pelo filho e pelo neto com a fundação do Maria &amp; José Parrilla, foi uma mulher que acreditava nos princípios da alimentação fresca e
-                    saudável. Nunca se rendeu às facilidades da comida industrializada e ultraprocessada, e deixou esse forte legado à família Freitas.
+                    Mangal é o nome do braseiro de ferro que a Dona Maria acendia todo domingo no quintal de casa. Em volta dele a família inteira se reunia: a carne ia para a grelha sem pressa, o pão
+                    esquentava na beirada e a conversa durava até a brasa virar cinza. Ninguém saía da mesa com fome, nem com hora marcada.
                   </p>
                   <p className="mj-body">
-                    Em 2017 nascia o Maria &amp; José Parrilla no coração de Franca, com um menu totalmente inspirado na matriarca da família. Receitas, princípios e até os nomes dos pratos mostram o
-                    quanto essa cultura é significativa: alta preocupação com a procedência e a qualidade dos insumos, e o amor no preparo de cada alimento, que se percebe no paladar do consumidor,
-                    apelidado carinhosamente de “cliente amigo”.
+                    Em 2016, os netos transformaram esse ritual em restaurante, num sobrado de 1920 no centro de Santa Aurora. O braseiro cresceu e virou parrilla, mas a regra da casa continua a mesma:
+                    carvão de verdade, cortes escolhidos um a um, sal grosso e tempo. O primeiro mangal da Dona Maria está lá até hoje, na entrada do salão.
                   </p>
                 </div>
                 <div className="chapter" data-reveal="" style={{ ["--i" as string]: 2 }}>
-                  <p className="mj-eyebrow">Araraquara · desde 2023</p>
+                  <p className="mj-eyebrow">Porto Jatobá · desde 2022</p>
                   <p className="mj-body">
-                    Apaixonado por pecuária, Leone Luis Junior, filho e neto de pecuarista, agregou ao DNA da empresa o fantástico mundo dos cortes Angus, inspirado em nossos hermanos argentinos. A
-                    raça Angus, de origem britânica, se adaptou muito bem aos pampas argentinos e trouxe ainda mais suculência e maciez aos cortes. Por isso oferecemos sempre a melhor carne do mundo.
-                    Agregamos um toque de brasilidade aos maiores clássicos argentinos e aos conceitos de frescor de Dona Maria José.
+                    Depois de uma temporada entre os assadores de Mendoza e de Buenos Aires, a família trouxe para a cozinha os clássicos da parrilla argentina: ojo de bife, bife de chorizo, entraña e
+                    provoleta, sempre com um toque de quintal brasileiro nos acompanhamentos. A carta de vinhos cresceu junto, com rótulos dos dois lados da cordilheira.
                   </p>
                   <p className="mj-body">
-                    Em 2023, o Maria &amp; José Parrilla chegou a Araraquara com a sua segunda unidade, num sobrado muito charmoso e cheio de significados e história: uma casa tombada de esquina em
-                    plena Rua 5, a rua mais arborizada da cidade, com calçadas adornadas por paralelepípedos. A casa oferece todas as delícias da gastronomia argentina, num ambiente muito aconchegante e
-                    com atendimento de excelência.
+                    Em 2022, a Maria Mangal chegou a Porto Jatobá, num antigo armazém de pedra do Cais Velho. Os barris da fachada lembram o tempo em que o rio levava vinho e café. Por dentro, tijolo
+                    aparente, a adega à vista e uma parrilla no centro do salão, para ninguém perder o fogo de vista.
                   </p>
                 </div>
               </div>
@@ -163,7 +159,7 @@ export default function Home() {
                       <div>
                         <dt>Endereço</dt>
                         <dd>
-                          {c.endereco} · {c.cidade}
+                          {c.endereco}, {c.bairro} · {c.cidade}
                         </dd>
                       </div>
                       <div>
@@ -188,7 +184,7 @@ export default function Home() {
                     <a className="order" href={c.pedido} target="_blank" rel="noopener">
                       <span className="order-t">Faça seu pedido agora</span>
                       <span className="order-s">
-                        Delivery · Anota Aí
+                        Delivery · WhatsApp
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
                           <path d="M7 17 17 7M9 7h8v8" />
                         </svg>
@@ -205,7 +201,7 @@ export default function Home() {
         <section data-theme="salao" className="sec wrap" id="galeria" aria-labelledby="galeria-t">
           <div className="inner">
             <SectionHead eyebrow="Por dentro" title={["Mesa posta, brasa acesa"]} id="galeria-t">
-              Tijolo, madeira e luz baixa. Toque numa foto para ver em tela cheia.
+              Pedra, madeira e luz baixa. Toque numa foto para ver em tela cheia.
             </SectionHead>
             <Mosaic />
           </div>
@@ -291,7 +287,7 @@ export default function Home() {
               </span>
               <div className="photo ev-main" data-reveal="curtain">
                 <div data-parallax="" style={{ position: "absolute", inset: "-6% 0" }}>
-                  <Image src="/fotos/franca-salao-cheio-retrato.jpg" alt="Salão de Franca cheio numa comemoração" fill sizes="(max-width: 760px) 90vw, 45vw" loading="eager" style={{ objectPosition: "center 40%" }} />
+                  <Image src="/fotos/comemoracao.jpg" alt="Mesa cheia brindando numa comemoração no salão reservado" fill sizes="(max-width: 760px) 90vw, 45vw" loading="eager" style={{ objectPosition: "center 40%" }} />
                 </div>
               </div>
               <div className="photo ev-inset" data-reveal="" style={{ ["--i" as string]: 4 }}>
@@ -349,16 +345,16 @@ export default function Home() {
                   <Lines lines={["Quem vem, volta"]} />
                 </h2>
               </div>
-              <a className="score" href={GOOGLE_URL} target="_blank" rel="noopener" data-reveal="" style={{ ["--i" as string]: 2 }}>
+              <div className="score" data-reveal="" style={{ ["--i" as string]: 2 }}>
                 <b data-count={GOOGLE.nota}>{GOOGLE.nota}</b>
                 <span>
-                  <span className="mj-stars" aria-label="Nota 4,4 de 5">
+                  <span className="mj-stars" aria-label={`Nota ${GOOGLE.nota} de 5`}>
                     ★★★★★
                   </span>
                   <br />
                   {GOOGLE.avaliacoes} avaliações no Google · {GOOGLE.casa}
                 </span>
-              </a>
+              </div>
             </div>
             <div className="grid3">
               {DEPOIMENTOS.map((d, i) => (
@@ -381,17 +377,17 @@ export default function Home() {
           <div className="fgrid">
             <div>
               <Logo />
-              <p className="slogan">A Melhor Carne do Mundo.</p>
+              <p className="slogan">{MARCA.slogan}</p>
             </div>
             {CASAS.map((c) => (
               <div key={c.id}>
                 <h2>{c.nome}</h2>
                 <p>
                   <a href={c.mapa} target="_blank" rel="noopener">
-                    {c.endereco.replace(", Centro", "")}
+                    {c.endereco}
                   </a>
                   <br />
-                  Centro ·{" "}
+                  {c.bairro} ·{" "}
                   <a href={`https://wa.me/${c.whatsappIntl}`} target="_blank" rel="noopener">
                     {c.whatsapp}
                   </a>
@@ -413,7 +409,7 @@ export default function Home() {
             </div>
           </div>
           <div className="legal">
-            <span>© {new Date().getFullYear()} Maria &amp; José Parrilla</span>
+            <span>© {new Date().getFullYear()} {MARCA.nome} · Site de demonstração, restaurante fictício</span>
             <a href={`https://wa.me/${EVENTOS.whatsappIntl}`} target="_blank" rel="noopener">
               Eventos: {EVENTOS.whatsapp}
             </a>

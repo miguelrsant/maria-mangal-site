@@ -23,7 +23,7 @@ const DIAS_CURTOS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 
 type Dia = { iso: string; rotulo: string; dataBR: string; semana: number; hoje: boolean };
 
-/** (16) 99999-9999 enquanto a pessoa digita. */
+/** (19) 99999-9999 enquanto a pessoa digita. */
 const mascaraTel = (v: string) => {
   const d = v.replace(/\D/g, "").slice(0, 11);
   if (d.length <= 2) return d.length ? `(${d}` : "";
@@ -105,7 +105,7 @@ export default function ReservationForm() {
     if (!pronto) return;
     const c = CASAS.find((x) => x.id === casa) ?? CASAS[0];
     const texto = [
-      `Olá! Gostaria de reservar uma mesa na Maria & José ${c.nome}.`,
+      `Olá! Gostaria de reservar uma mesa na Maria Mangal ${c.nome}.`,
       ``,
       `Reserva em nome de: ${nome.trim()}`,
       `Telefone: ${tel}`,
@@ -141,7 +141,7 @@ export default function ReservationForm() {
       </label>
       <label className="half" {...passo(2)}>
         <span>Telefone</span>
-        <input className="field" name="telefone" type="tel" inputMode="tel" value={tel} onChange={(e) => setTel(mascaraTel(e.target.value))} placeholder="(16) 99999-9999" autoComplete="tel-national" required disabled={!liberado(2)} />
+        <input className="field" name="telefone" type="tel" inputMode="tel" value={tel} onChange={(e) => setTel(mascaraTel(e.target.value))} placeholder="(19) 99999-9999" autoComplete="tel-national" required disabled={!liberado(2)} />
       </label>
       <label className="half" {...passo(3)}>
         <span>E-mail</span>

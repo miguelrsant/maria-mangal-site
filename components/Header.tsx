@@ -35,7 +35,7 @@ export default function Header() {
     <>
       <header data-theme="salao" className={`top wrap${solid || open ? " is-solid" : ""}`}>
         <div className="top-in inner">
-          <a className="logo-link" href="#home" aria-label="Maria & José Parrilla, início" onClick={close}>
+          <a className="logo-link" href="#home" aria-label="Maria Mangal Parrilla, início" onClick={close}>
             <Logo />
           </a>
           <nav className="nav" aria-label="Principal">

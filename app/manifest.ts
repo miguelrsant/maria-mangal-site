@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Maria & José Parrilla",
-    short_name: "Maria & José",
-    description: "Parrilla argentina em Franca e Araraquara.",
+    name: "Maria Mangal Parrilla",
+    short_name: "Maria Mangal",
+    description: "Parrilla argentina em Santa Aurora e Porto Jatobá.",
     start_url: "/",
     display: "browser",
     background_color: "#15110e",
