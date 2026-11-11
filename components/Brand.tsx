@@ -2,7 +2,7 @@ import { LOGO_PATHS, LOGO_VIEWBOX, MONOGRAMA_M_PATHS, MONOGRAMA_M_VIEWBOX } from
 
 type Props = { className?: string; title?: string };
 
-export function Logo({ className = "logo", title = "Maria & José Parrilla Argentina" }: Props) {
+export function Logo({ className = "logo", title = "Maria Mangal Parrilla" }: Props) {
   return (
     <svg className={className} viewBox={LOGO_VIEWBOX} role="img" aria-label={title} dangerouslySetInnerHTML={{ __html: LOGO_PATHS }} />
   );

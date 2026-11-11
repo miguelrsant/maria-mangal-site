@@ -1,74 +1,84 @@
 // Dados fixos do site. Atualize aqui (horários, telefones, nota do Google, depoimentos).
+// Maria Mangal Parrilla é um restaurante fictício: site de demonstração. Nomes, endereços,
+// telefones e avaliações são inventados.
 
-/**
- * Endereço público do site. Na Vercel vem do domínio de produção do projeto (vira mariaejose.com.br
- * quando o domínio for apontado para lá); fora dela, usa o domínio da casa.
- */
-export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://mariaejose.com.br";
+/** Endereço público do site. Na Vercel vem do domínio de produção do projeto. */
+export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000";
+
+export const MARCA = {
+  nome: "Maria Mangal Parrilla",
+  curto: "Maria Mangal",
+  slogan: "Fogo lento, mesa cheia.",
+};
 
 export type Casa = {
-  id: "franca" | "araraquara";
+  id: "aurora" | "jatoba";
   nome: string;
   desde: string;
   texto: string;
   endereco: string;
+  bairro: string;
   cidade: string;
   whatsapp: string; // como aparece na tela
   whatsappIntl: string; // só dígitos, com 55
   mapa: string;
-  /** Delivery pelo Anota Aí. */
+  /** Pedido para entrega, pelo WhatsApp da casa. */
   pedido: string;
   foto: { src: string; alt: string; posicao?: string };
   detalhe: { src: string; alt: string; posicao?: string };
 };
 
+export const waLink = (intl: string, texto: string) => `https://wa.me/${intl}?text=${encodeURIComponent(texto)}`;
+const mapa = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+
 export const CASAS: Casa[] = [
   {
-    id: "franca",
-    nome: "Franca",
-    desde: "Desde 2017",
-    texto:
-      "Feita em homenagem à Dona Maria José de Freitas: comida fresca, receitas de família e o cliente amigo.",
-    endereco: "Av. Major Nicácio, 2060, Centro",
-    cidade: "Franca/SP",
-    whatsapp: "(16) 99996-5739",
-    whatsappIntl: "5516999965739",
-    mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Av.+Major+Nic%C3%A1cio+2060+Franca+SP",
-    pedido: "https://pedido.anota.ai/loja/maria-jose-parrilla-1",
-    foto: { src: "/fotos/franca-fachada.jpg", alt: "Fachada da casa de Franca, com o letreiro aceso", posicao: "center 30%" },
-    detalhe: { src: "/fotos/franca-arvore.jpg", alt: "O pátio com a árvore, em Franca", posicao: "center 40%" },
+    id: "aurora",
+    nome: "Santa Aurora",
+    desde: "Desde 2016",
+    texto: "A primeira casa: um sobrado de 1920 com varanda de madeira, onde o braseiro da Dona Maria virou parrilla.",
+    endereco: "Rua das Figueiras, 120",
+    bairro: "Centro",
+    cidade: "Santa Aurora/SP",
+    whatsapp: "(19) 90000-0101",
+    whatsappIntl: "5519900000101",
+    mapa: mapa("Rua das Figueiras, 120, Santa Aurora SP"),
+    pedido: waLink("5519900000101", "Olá! Gostaria de fazer um pedido para entrega na Maria Mangal Santa Aurora."),
+    foto: { src: "/fotos/aurora-fachada.jpg", alt: "Entrada da casa de Santa Aurora, com as luminárias acesas", posicao: "center 84%" },
+    detalhe: { src: "/fotos/aurora-varanda.jpg", alt: "A varanda de madeira da casa de Santa Aurora, com as mesas postas", posicao: "center" },
   },
   {
-    id: "araraquara",
-    nome: "Araraquara",
-    desde: "Desde 2023",
-    texto:
-      "Um sobrado tombado de esquina na Rua 5, a rua mais arborizada da cidade, com os cortes Angus da parrilla argentina.",
-    endereco: "Rua Voluntários da Pátria, 1505, Centro",
-    cidade: "Araraquara/SP",
-    whatsapp: "(16) 99713-0782",
-    whatsappIntl: "5516997130782",
-    mapa: "https://www.google.com/maps/search/?api=1&query=Maria+%26+Jos%C3%A9+Parrilla+Rua+Volunt%C3%A1rios+da+P%C3%A1tria+1505+Araraquara+SP",
-    pedido: "https://pedido.anota.ai/loja/maria-jose-parrilla",
-    foto: { src: "/fotos/arara-entrada.jpg", alt: "Entrada da casa de Araraquara, com a marquise de vidro", posicao: "center 30%" },
-    detalhe: { src: "/fotos/arara-salao.jpg", alt: "O salão de Araraquara, com as mesas postas", posicao: "center" },
+    id: "jatoba",
+    nome: "Porto Jatobá",
+    desde: "Desde 2022",
+    texto: "Um antigo armazém de pedra à beira do rio, com os barris na fachada, a adega à vista e a parrilla no centro do salão.",
+    endereco: "Av. Beira-Rio, 845",
+    bairro: "Cais Velho",
+    cidade: "Porto Jatobá/SP",
+    whatsapp: "(19) 90000-0202",
+    whatsappIntl: "5519900000202",
+    mapa: mapa("Av. Beira-Rio, 845, Porto Jatobá SP"),
+    pedido: waLink("5519900000202", "Olá! Gostaria de fazer um pedido para entrega na Maria Mangal Porto Jatobá."),
+    foto: { src: "/fotos/jatoba-fachada.jpg", alt: "Fachada de pedra da casa de Porto Jatobá, com os barris iluminados", posicao: "center" },
+    detalhe: { src: "/fotos/jatoba-salao.jpg", alt: "Um canto do salão de Porto Jatobá, com tijolo aparente e quadros", posicao: "center 60%" },
   },
 ];
 
 export const EVENTOS = {
-  whatsapp: "(16) 98254-0005",
-  whatsappIntl: "5516982540005",
+  whatsapp: "(19) 90000-0303",
+  whatsappIntl: "5519900000303",
 };
 
 export const INSTAGRAM = {
-  usuario: "@mariaejoseparrilla",
-  url: "https://www.instagram.com/mariaejoseparrilla/",
+  usuario: "@mariamangal.parrilla",
+  url: "https://www.instagram.com/",
 };
 
 export const GOOGLE = {
-  nota: "4,4",
-  avaliacoes: 935,
-  casa: "Franca",
+  nota: "4,8",
+  avaliacoes: "1.248",
+  casa: "Santa Aurora",
+  url: "#avaliacoes",
 };
 
 // Funcionamento: terça a domingo (0 = domingo ... 6 = sábado). Minutos desde 0h.
@@ -81,64 +91,59 @@ export const HORARIOS = {
 export const HERO = [
   {
     rotulo: "A brasa",
-    alt: "Picanha na grelha, sobre a brasa",
-    desktop: "/fotos/grelha-horizontal-b.jpg",
-    celular: "/fotos/celular/grelha-brasa-caprichada-1.jpg",
-    posicao: "center",
+    alt: "Cortes na grelha, sobre a brasa e o fogo",
+    desktop: "/fotos/brasa.jpg",
+    celular: "/fotos/celular/brasa.jpg",
+    posicao: "center 60%",
   },
   {
     rotulo: "A noite",
-    alt: "Jantar a dois na varanda de Araraquara, à noite",
-    desktop: "/fotos/arara-noite.jpg",
-    celular: "/fotos/celular/arara-noite.jpg",
-    // mais para baixo da foto, para o casal aparecer inteiro na tela larga
-    posicao: "center 66%",
+    alt: "Casal brindando com vinho tinto num jantar a dois",
+    desktop: "/fotos/noite.jpg",
+    celular: "/fotos/celular/noite.jpg",
+    posicao: "center 40%",
   },
   {
     rotulo: "O salão",
-    alt: "O salão de Franca cheio, numa comemoração",
-    desktop: "/fotos/franca-salao-cheio.jpg",
-    celular: "/fotos/celular/franca-salao-cheio.jpg",
+    alt: "O salão da casa, com forro de madeira e luz quente",
+    desktop: "/fotos/salao.jpg",
+    celular: "/fotos/celular/salao.jpg",
     posicao: "center",
   },
   {
-    rotulo: "A casa",
-    alt: "O pátio e a cozinha aberta da casa de Franca",
-    desktop: "/fotos/franca-patio-cozinha.jpg",
-    celular: "/fotos/celular/franca-patio-cozinha.jpg",
+    rotulo: "O pátio",
+    alt: "O pátio à noite, com as lanternas acesas entre as árvores",
+    desktop: "/fotos/patio.jpg",
+    celular: "/fotos/celular/patio.jpg",
     posicao: "center",
   },
 ];
 
-/** ampliada: outra versão da foto para abrir ao tocar (ex.: a brasa vertical abre na horizontal). */
+/** ampliada: outra versão da foto para abrir ao tocar (ex.: uma foto em pé que abre na horizontal). */
 export type FotoMosaico = { src: string; alt: string; forma?: "big" | "tall" | "wide"; posicao?: string; ampliada?: string };
 
 export const MOSAICO: FotoMosaico[] = [
-  { src: "/fotos/franca-mesa.jpg", alt: "Salão de Franca, mesa cheia", forma: "big" },
-  { src: "/fotos/grelha-brasa-caprichada-2.jpg", alt: "A picanha na grelha, sobre a brasa", forma: "tall", ampliada: "/fotos/grelha-horizontal-b.jpg" },
-  { src: "/fotos/prato-mesa.jpg", alt: "O corte servido à mesa" },
-  { src: "/fotos/prato-picanha.jpg", alt: "Picanha na pedra" },
-  { src: "/fotos/prato-tabua-madeira.jpg", alt: "Corte na mesa de madeira, com os acompanhamentos", forma: "wide", posicao: "center 42%" },
-  { src: "/fotos/franca-patio-cozinha.jpg", alt: "O pátio e a cozinha aberta, em Franca", forma: "wide" },
+  { src: "/fotos/brinde.jpg", alt: "Amigos brindando numa mesa do salão", forma: "big" },
+  { src: "/fotos/parrillero.jpg", alt: "O parrillero cuidando dos cortes na brasa", forma: "tall", posicao: "center 60%" },
+  { src: "/fotos/prato-vinho.jpg", alt: "O corte servido à mesa, com vinho na taça" },
+  { src: "/fotos/corte-tabua.jpg", alt: "Corte fatiado na tábua, com sal grosso" },
+  { src: "/fotos/grelha.jpg", alt: "Um corte com osso virando na grelha", forma: "wide" },
+  { src: "/fotos/mesa-posta.jpg", alt: "Mesa posta à meia-luz, com as taças prontas", forma: "wide", posicao: "center 60%" },
 ];
 
-// Avaliações reais do Google (copiadas pelo Miguel em 24/10/2026; "[...]" marca trechos omitidos).
+// Avaliações inventadas, para demonstração.
 export const DEPOIMENTOS = [
   {
     texto:
-      "Fui comemorar meu aniversário no restaurante e não conhecia. [...] O ambiente é lindo, muito bem organizado e atende bem desde casais, famílias grandes, turma de amigos e crianças. [...] Os garçons muito atenciosos e sempre prontos a nos atender.",
-    origem: "Anna Luiza R. · Avaliação no Google",
+      "Comemorei meus 40 anos no salão de Santa Aurora e foi tudo no ponto: a carne, o vinho e o cuidado da equipe com cada convidado. Já deixei reservado o ano que vem.",
+    origem: "Helena V. · Avaliação no Google · Santa Aurora",
   },
   {
-    texto:
-      "Já visitei diversos restaurantes argentinos no Brasil, e o Maria e José entrou para a lista dos melhores. A carne estava no ponto certo, os acompanhamentos bem feitos e o atendimento de qualidade.",
-    origem: "Gustavo · Avaliação no Google · Franca",
+    texto: "O melhor ojo de bife que já comi fora de Buenos Aires. O pátio à noite é lindo e ninguém tem pressa de tirar você da mesa.",
+    origem: "Rafael T. · Avaliação no Google · Porto Jatobá",
   },
   {
-    texto: "Ambiente agradável e único na região! Comidas deliciosas, preço justo pela qualidade e cortes nobres! Ótimo atendimento.",
-    origem: "Aline B. · Avaliação no Google",
+    texto: "Levamos a família inteira num domingo e fomos recebidos como gente de casa. As crianças adoraram ver a brasa de perto. Voltamos sempre.",
+    origem: "Camila e Bruno · Avaliação no Google · Santa Aurora",
   },
 ];
-
-export const waLink = (intl: string, texto: string) =>
-  `https://wa.me/${intl}?text=${encodeURIComponent(texto)}`;

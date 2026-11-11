@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
-import { CASAS, GOOGLE, INSTAGRAM, SITE_URL } from "@/lib/site";
+import { CASAS, MARCA, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -12,43 +12,33 @@ const cormorant = Cormorant_Garamond({
 });
 const jost = Jost({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-jost", display: "swap" });
 
-const DESC =
-  "Parrilla argentina em Franca e Araraquara. Cortes Angus na brasa de carvão, vinho na taça e uma casa feita para comemorar. Reservas pelo WhatsApp, terça a domingo.";
+const CIDADES = CASAS.map((c) => c.nome).join(" e ");
+const DESC = `Parrilla argentina em ${CIDADES}. Cortes nobres na brasa de carvão, vinho na taça e uma casa feita para comemorar. Reservas pelo WhatsApp, terça a domingo.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Maria & José Parrilla · Parrilla argentina em Franca e Araraquara",
-    template: "%s · Maria & José Parrilla",
+    default: `${MARCA.nome} · Parrilla argentina em ${CIDADES}`,
+    template: `%s · ${MARCA.nome}`,
   },
   description: DESC,
-  applicationName: "Maria & José Parrilla",
-  keywords: [
-    "parrilla argentina",
-    "restaurante argentino Franca",
-    "restaurante argentino Araraquara",
-    "churrasco argentino",
-    "cortes Angus",
-    "parrilla Franca",
-    "parrilla Araraquara",
-    "restaurante para comemorar aniversário",
-    "eventos e buffet de parrilla",
-    "Maria e José",
-  ],
+  applicationName: MARCA.nome,
+  keywords: ["parrilla argentina", "restaurante argentino", "churrasco argentino", "cortes nobres na brasa", "restaurante para comemorar aniversário", "eventos e buffet de parrilla", MARCA.curto],
   category: "restaurant",
   openGraph: {
-    title: "Maria & José Parrilla",
-    description: "A noite começa na brasa. Parrilla argentina em Franca e Araraquara: cortes Angus, vinho na taça e uma casa feita para comemorar.",
+    title: MARCA.nome,
+    description: `A noite começa na brasa. Parrilla argentina em ${CIDADES}: cortes nobres, vinho na taça e uma casa feita para comemorar.`,
     url: "/",
-    siteName: "Maria & José Parrilla",
+    siteName: MARCA.nome,
     locale: "pt_BR",
     type: "website",
   },
-  twitter: { card: "summary_large_image", title: "Maria & José Parrilla", description: "A noite começa na brasa. Parrilla argentina em Franca e Araraquara." },
+  twitter: { card: "summary_large_image", title: MARCA.nome, description: `A noite começa na brasa. Parrilla argentina em ${CIDADES}.` },
   alternates: { canonical: "/" },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  // Restaurante fictício (site de demonstração): fica fora dos buscadores.
+  // Num site real: index/follow true, com googleBot { "max-image-preview": "large", "max-snippet": -1 }.
+  robots: { index: false, follow: false },
   formatDetection: { telephone: false },
-  other: { "geo.region": "BR-SP", "geo.placename": "Franca; Araraquara" },
 };
 
 export const viewport: Viewport = { themeColor: "#15110e" };
@@ -64,31 +54,30 @@ const jsonLd = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}/#marca`,
-      name: "Maria & José Parrilla",
+      name: MARCA.nome,
       url: SITE_URL,
       logo: `${SITE_URL}/apple-icon.png`,
-      slogan: "A Melhor Carne do Mundo.",
-      sameAs: [INSTAGRAM.url],
-      foundingDate: "2017",
+      slogan: MARCA.slogan,
+      foundingDate: "2016",
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#site`,
       url: SITE_URL,
-      name: "Maria & José Parrilla",
+      name: MARCA.nome,
       inLanguage: "pt-BR",
       publisher: { "@id": `${SITE_URL}/#marca` },
     },
     ...CASAS.map((c) => ({
       "@type": "Restaurant",
       "@id": `${SITE_URL}/#${c.id}`,
-      name: `Maria & José Parrilla · ${c.nome}`,
+      name: `${MARCA.nome} · ${c.nome}`,
       description: c.texto,
       parentOrganization: { "@id": `${SITE_URL}/#marca` },
       servesCuisine: ["Argentina", "Parrilla", "Carnes"],
       address: {
         "@type": "PostalAddress",
-        streetAddress: c.endereco,
+        streetAddress: `${c.endereco}, ${c.bairro}`,
         addressLocality: c.nome,
         addressRegion: "SP",
         addressCountry: "BR",
@@ -97,16 +86,13 @@ const jsonLd = {
       url: `${SITE_URL}/#casa`,
       hasMap: c.mapa,
       image: [`${SITE_URL}${c.foto.src}`, `${SITE_URL}${c.detalhe.src}`],
-      sameAs: [INSTAGRAM.url],
       acceptsReservations: true,
       potentialAction: [
         { "@type": "ReserveAction", target: `https://wa.me/${c.whatsappIntl}`, result: { "@type": "FoodEstablishmentReservation", name: "Reserva de mesa" } },
         { "@type": "OrderAction", target: c.pedido, deliveryMethod: "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet" },
       ],
       openingHoursSpecification: HORAS,
-      ...(c.id === "franca"
-        ? { aggregateRating: { "@type": "AggregateRating", ratingValue: GOOGLE.nota.replace(",", "."), reviewCount: GOOGLE.avaliacoes, bestRating: 5 } }
-        : {}),
+      // Num site real, entra aqui o aggregateRating com a nota e o total de avaliações do Google.
     })),
   ],
 };
