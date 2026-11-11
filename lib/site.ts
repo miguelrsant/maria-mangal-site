@@ -2,8 +2,34 @@
 // Maria Mangal Parrilla é um restaurante fictício: site de demonstração. Nomes, endereços,
 // telefones e avaliações são inventados.
 
-/** Endereço público do site. Na Vercel vem do domínio de produção do projeto. */
-export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000";
+/** Endereço oficial do site (um domínio só). Para trocar, defina NEXT_PUBLIC_SITE_URL. */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://maria-mangal-parrilla.vercel.app").replace(/\/$/, "");
+export const abs = (path: string) => `${SITE_URL}${path === "/" ? "/" : path}`;
+
+/** Quem desenhou e desenvolveu o site. Aparece no rodapé, nas páginas internas, no JSON-LD e no Markdown. */
+export const AUTOR = {
+  nome: "Miguel Angelo",
+  papel: "Desenvolvedor full stack e designer",
+  site: "miguelrsant.com.br",
+  url: "https://miguelrsant.com.br",
+  instagram: "https://www.instagram.com/miguelrsant/",
+  instagramUsuario: "@miguelrsant",
+  linkedin: "https://www.linkedin.com/in/miguelrsant/",
+  github: "https://github.com/miguelrsant",
+  repo: "https://github.com/miguelrsant/maria-mangal-site",
+  email: "miguelrsant01@gmail.com",
+  cidade: "Franca",
+  uf: "SP",
+};
+
+/** Dados do site para metadados, JSON-LD, sitemap e llms.txt. */
+export const SITE = {
+  titulo: "Maria Mangal Parrilla · Site conceito de parrilla argentina",
+  descricao:
+    "Site conceito de uma parrilla argentina fictícia, com reserva pelo WhatsApp, horários ao vivo e galeria de fotos. Design e desenvolvimento de Miguel Angelo.",
+  /** Data da última mudança de cada página (AAAA-MM-DD), usada no sitemap e no Markdown. */
+  atualizado: { "/": "2026-11-11", "/sobre": "2026-11-11", "/contato": "2026-11-11", "/privacidade": "2026-11-11" } as Record<string, string>,
+};
 
 export const MARCA = {
   nome: "Maria Mangal Parrilla",
@@ -63,6 +89,27 @@ export const CASAS: Casa[] = [
     detalhe: { src: "/fotos/jatoba-salao.jpg", alt: "Um canto do salão de Porto Jatobá, com tijolo aparente e quadros", posicao: "center 60%" },
   },
 ];
+
+/** A história da casa (seção "A casa"), usada na página e no Markdown para agentes. */
+export const HISTORIA = {
+  frase: "Carne boa não tem pressa. Quem cuida da brasa cuida de quem está à mesa.",
+  capitulos: [
+    {
+      rotulo: "Santa Aurora · desde 2016",
+      textos: [
+        "Mangal é o nome do braseiro de ferro que a Dona Maria acendia todo domingo no quintal de casa. Em volta dele a família inteira se reunia: a carne ia para a grelha sem pressa, o pão esquentava na beirada e a conversa durava até a brasa virar cinza. Ninguém saía da mesa com fome, nem com hora marcada.",
+        "Em 2016, os netos transformaram esse ritual em restaurante, num sobrado de 1920 no centro de Santa Aurora. O braseiro cresceu e virou parrilla, mas a regra da casa continua a mesma: carvão de verdade, cortes escolhidos um a um, sal grosso e tempo. O primeiro mangal da Dona Maria está lá até hoje, na entrada do salão.",
+      ],
+    },
+    {
+      rotulo: "Porto Jatobá · desde 2022",
+      textos: [
+        "Depois de uma temporada entre os assadores de Mendoza e de Buenos Aires, a família trouxe para a cozinha os clássicos da parrilla argentina: ojo de bife, bife de chorizo, entraña e provoleta, sempre com um toque de quintal brasileiro nos acompanhamentos. A carta de vinhos cresceu junto, com rótulos dos dois lados da cordilheira.",
+        "Em 2022, a Maria Mangal chegou a Porto Jatobá, num antigo armazém de pedra do Cais Velho. Os barris da fachada lembram o tempo em que o rio levava vinho e café. Por dentro, tijolo aparente, a adega à vista e uma parrilla no centro do salão, para ninguém perder o fogo de vista.",
+      ],
+    },
+  ],
+};
 
 export const EVENTOS = {
   whatsapp: "(19) 90000-0303",

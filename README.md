@@ -20,7 +20,7 @@ Tudo que muda de um restaurante para outro fica em `lib/site.ts`:
 - nota e número de avaliações (`GOOGLE`) e depoimentos (`DEPOIMENTOS`)
 - fotos da abertura (`HERO`) e do mosaico (`MOSAICO`)
 
-Os textos da história e das seções ficam em `app/page.tsx`. Título, descrição e dados estruturados (JSON-LD) ficam em `app/layout.tsx`. Por ser uma demonstração, o site está com `robots: noindex`: num site real, voltar para `index: true` e incluir o `aggregateRating`.
+Os textos da história e das seções ficam em `app/page.tsx`. Título, descrição e dados estruturados (JSON-LD) ficam em `app/layout.tsx`. O site é indexado como site conceito: título, descrição e JSON-LD dizem que o restaurante é fictício e apontam para quem fez. Num site real, trocar o `CreativeWork` por `Restaurant` (com endereço, telefone e `aggregateRating`). SEO, Markdown para agentes, `llms.txt` e páginas internas estão descritos em `SEO-E-AGENTES.md`.
 
 ## Fotos
 
@@ -45,4 +45,4 @@ Todas as fotos vêm do [Pexels](https://www.pexels.com/license/) (uso gratuito, 
 - `app/globals.css`: tokens do design system (temas `salao` e `marmore`) e estilos
 - `components/`: topo e menu, abertura com fotos que trocam a cada 6s, mosaico com ampliação, horários com o dia de hoje (fuso de São Paulo), formulário de reserva que abre o WhatsApp da casa escolhida, animações de entrada
 
-Design e desenvolvimento: [Miguel Angelo](https://miguelrsant.com.br).
+Design e desenvolvimento: [Miguel Angelo](https://miguelrsant.com.br) · [Instagram @miguelrsant](https://www.instagram.com/miguelrsant/).

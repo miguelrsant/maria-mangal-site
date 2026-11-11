@@ -8,8 +8,11 @@ import Mosaic from "@/components/Mosaic";
 import Motion from "@/components/Motion";
 import ReservationForm, { ReservarNestaCasa } from "@/components/ReservationForm";
 import { HoursStatus, Week } from "@/components/Hours";
-import { InstagramIcon, Lines, Logo, MonogramaM } from "@/components/Brand";
-import { CASAS, DEPOIMENTOS, EVENTOS, GOOGLE, HORARIOS, INSTAGRAM, MARCA, waLink } from "@/lib/site";
+import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+import { Lines } from "@/components/Brand";
+import { homeJsonLd } from "@/lib/jsonld";
+import { CASAS, DEPOIMENTOS, EVENTOS, GOOGLE, HISTORIA, HORARIOS, MARCA, waLink } from "@/lib/site";
 
 const ORCAMENTO = waLink(EVENTOS.whatsappIntl, `Olá! Gostaria de um orçamento para um evento com a ${MARCA.nome}.`);
 
@@ -37,6 +40,7 @@ function SectionHead({ eyebrow, title, children, id }: { eyebrow: string; title:
 export default function Home() {
   return (
     <>
+      <JsonLd data={homeJsonLd()} />
       <a className="skip" href="#conteudo">
         Pular para o conteúdo
       </a>
@@ -102,31 +106,19 @@ export default function Home() {
             </SectionHead>
             <div className="story">
               <blockquote className="pull" data-reveal="">
-                “Carne boa não tem pressa. Quem cuida da brasa cuida de quem está à mesa.”
+                “{HISTORIA.frase}”
               </blockquote>
               <div className="story-text">
-                <div className="chapter" data-reveal="" style={{ ["--i" as string]: 1 }}>
-                  <p className="mj-eyebrow">Santa Aurora · desde 2016</p>
-                  <p className="mj-body">
-                    Mangal é o nome do braseiro de ferro que a Dona Maria acendia todo domingo no quintal de casa. Em volta dele a família inteira se reunia: a carne ia para a grelha sem pressa, o pão
-                    esquentava na beirada e a conversa durava até a brasa virar cinza. Ninguém saía da mesa com fome, nem com hora marcada.
-                  </p>
-                  <p className="mj-body">
-                    Em 2016, os netos transformaram esse ritual em restaurante, num sobrado de 1920 no centro de Santa Aurora. O braseiro cresceu e virou parrilla, mas a regra da casa continua a mesma:
-                    carvão de verdade, cortes escolhidos um a um, sal grosso e tempo. O primeiro mangal da Dona Maria está lá até hoje, na entrada do salão.
-                  </p>
-                </div>
-                <div className="chapter" data-reveal="" style={{ ["--i" as string]: 2 }}>
-                  <p className="mj-eyebrow">Porto Jatobá · desde 2022</p>
-                  <p className="mj-body">
-                    Depois de uma temporada entre os assadores de Mendoza e de Buenos Aires, a família trouxe para a cozinha os clássicos da parrilla argentina: ojo de bife, bife de chorizo, entraña e
-                    provoleta, sempre com um toque de quintal brasileiro nos acompanhamentos. A carta de vinhos cresceu junto, com rótulos dos dois lados da cordilheira.
-                  </p>
-                  <p className="mj-body">
-                    Em 2022, a Maria Mangal chegou a Porto Jatobá, num antigo armazém de pedra do Cais Velho. Os barris da fachada lembram o tempo em que o rio levava vinho e café. Por dentro, tijolo
-                    aparente, a adega à vista e uma parrilla no centro do salão, para ninguém perder o fogo de vista.
-                  </p>
-                </div>
+                {HISTORIA.capitulos.map((c, i) => (
+                  <div className="chapter" key={c.rotulo} data-reveal="" style={{ ["--i" as string]: i + 1 }}>
+                    <p className="mj-eyebrow">{c.rotulo}</p>
+                    {c.textos.map((t) => (
+                      <p className="mj-body" key={t.slice(0, 24)}>
+                        {t}
+                      </p>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="grid2">
@@ -371,54 +363,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 8 · Rodapé */}
-      <footer data-theme="salao" className="foot wrap">
-        <div className="inner">
-          <div className="fgrid">
-            <div>
-              <Logo />
-              <p className="slogan">{MARCA.slogan}</p>
-            </div>
-            {CASAS.map((c) => (
-              <div key={c.id}>
-                <h2>{c.nome}</h2>
-                <p>
-                  <a href={c.mapa} target="_blank" rel="noopener">
-                    {c.endereco}
-                  </a>
-                  <br />
-                  {c.bairro} ·{" "}
-                  <a href={`https://wa.me/${c.whatsappIntl}`} target="_blank" rel="noopener">
-                    {c.whatsapp}
-                  </a>
-                </p>
-              </div>
-            ))}
-            <div>
-              <h2>Horários</h2>
-              <p>
-                Terça a domingo
-                <br />
-                11h–16h · 18h30–23h
-              </p>
-              <p>
-                <a className="foot-ig" href={INSTAGRAM.url} target="_blank" rel="noopener">
-                  <InstagramIcon /> {INSTAGRAM.usuario}
-                </a>
-              </p>
-            </div>
-          </div>
-          <div className="legal">
-            <span>© {new Date().getFullYear()} {MARCA.nome} · Site de demonstração, restaurante fictício</span>
-            <a href={`https://wa.me/${EVENTOS.whatsappIntl}`} target="_blank" rel="noopener">
-              Eventos: {EVENTOS.whatsapp}
-            </a>
-            <a className="credit" href="https://miguelrsant.com.br" target="_blank" rel="noopener">
-              Design e desenvolvimento: Miguel Angelo <MonogramaM />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

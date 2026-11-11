@@ -593,3 +593,33 @@ html { scrollbar-width: thin; scrollbar-color: #7d6858 #15110e; }
 /* Formulário: telefone + e-mail numa linha, data + horário na outra */
 .resbar label.half { flex: 1 1 calc(50% - var(--space-3)); }
 @media (max-width: 760px) { .resbar label.half { flex: 1 1 calc(50% - 8px); } .resbar label.half:has(input[type="email"]), .resbar label.half:has(input[type="tel"]) { flex-basis: 100%; } }
+
+/* ---------- rodapé: páginas e crédito ---------- */
+.legal { flex-wrap: wrap; }
+.legal-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.legal a:hover, .made a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.made { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); font: 400 12px/18px var(--font-sans); color: var(--ink-muted); }
+.made a { text-decoration: none; }
+.made .credit { color: var(--ink); letter-spacing: .04em; }
+.made-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+/* ---------- páginas internas (Sobre, Contato, Privacidade, 404) ---------- */
+.in-bar { padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.in-bar-in { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.in-bar .logo { width: 150px; height: auto; display: block; }
+.in-main { background: var(--surface); color: var(--ink); padding-top: 88px; padding-bottom: 112px; min-height: 60vh; }
+.in-col { max-width: 720px; margin: 0 auto; }
+.in-lead { margin: 24px 0 0; font: italic 400 24px/34px var(--font-display); color: var(--ink); }
+.in-block { margin-top: 48px; }
+.in-block h2 { margin: 0 0 16px; font: 400 30px/36px var(--font-display); color: var(--ink); }
+.in-block p, .in-block li { font-size: 16px; line-height: 27px; color: var(--ink-muted); }
+.in-block p { margin: 0 0 16px; }
+.in-block ul { margin: 0; padding-left: 20px; display: grid; gap: 10px; }
+.in-block a, .in-links a { color: var(--ink); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.in-cta { margin: 56px 0 0; }
+.in-links { list-style: none; display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 32px 0 0; padding: 0; font-size: 14px; }
+@media (max-width: 760px) {
+  .in-main { padding-top: 56px; padding-bottom: 72px; }
+  .in-lead { font-size: 21px; line-height: 30px; }
+  .legal, .made { flex-direction: column; align-items: flex-start; }
+}
